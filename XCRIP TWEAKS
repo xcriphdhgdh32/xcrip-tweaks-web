@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XCRIP TWEAKS | Rendimiento Extremo Profesional</title>
+    
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Variables y Configuración de Fuente */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        
+        :root {
+            /* Esquema Monocromático: Cian reemplazado por Blanco Puro */
+            --color-primary: #FFFFFF; /* Blanco Puro como acento */
+            --color-background: #030303; /* Negro Extremo */
+            --color-card: #0A0A0A;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-background);
+            color: #FAFAFA;
+            overflow-x: hidden;
+        }
+        
+        /* Background Topográfico (Misma lógica, pero en Blanco/Gris) */
+        #topographic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -10;
+            opacity: 0.15; /* Subido un poco para que se vea más en B/W */
+        }
+
+        /* --- Animación del Título (Static Glitch - B/W) --- */
+        @keyframes static-glitch {
+            /* Usamos un gris oscuro como contraste para el efecto glitch */
+            0% { text-shadow: 2px 0 0 var(--color-primary), -2px 0 0 #555555; }
+            1% { text-shadow: -2px 0 0 var(--color-primary), 2px 0 0 #555555; }
+            3% { text-shadow: 1px 0 0 var(--color-primary), -1px 0 0 #555555; }
+            5% { text-shadow: 0 0 0 var(--color-primary), 0 0 0 #555555; }
+            100% { text-shadow: 0 0 0 var(--color-primary), 0 0 0 #555555; }
+        }
+
+        .h1-glitch {
+            animation: static-glitch 12s infinite alternate;
+        }
+
+        /* --- Botones (Plasma Border - B/W) --- */
+        .btn-plasma {
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid var(--color-primary);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.4); /* Glow blanco */
+            background-color: transparent;
+            color: var(--color-primary);
+            font-weight: 700;
+        }
+
+        .btn-plasma:hover {
+            color: var(--color-background);
+            background-color: var(--color-primary);
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.8), 0 0 50px rgba(255, 255, 255, 0.3); /* Glow más intenso */
+            transform: translateY(-2px);
+        }
+
+        /* --- Tarjetas de Paquetes --- */
+        .card-glow {
+            background-color: var(--color-card);
+            border: 1px solid #1f1f1f;
+            transition: transform 0.4s ease-out, box-shadow 0.4s ease-out, border-color 0.4s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+        }
+
+        .card-glow:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px -5px rgba(255, 255, 255, 0.08); 
+            border-color: var(--color-primary);
+        }
+        
+        /* Card XTREME Destacada (B/W) */
+        .card-xtreme {
+            border: 2px solid var(--color-primary);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+            background-image: linear-gradient(145deg, #0A0A0A 0%, #1A1A1A 100%);
+        }
+
+        .card-xtreme:hover {
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.8), 0 10px 50px rgba(255, 255, 255, 0.2);
+            transform: scale(1.03);
+        }
+
+        /* Iconos de Acennto (B/W) */
+        .accent-text {
+            color: var(--color-primary);
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+        
+        /* Animación de entrada (FadeInUp) - se mantiene */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animated-item {
+            animation: fadeInUp 0.9s ease-out both;
+        }
+        
+        /* Retardos para la secuencia de animación - se mantiene */
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+        .delay-600 { animation-delay: 0.6s; }
+        .delay-700 { animation-delay: 0.7s; }
+        .delay-800 { animation-delay: 0.8s; }
+
+        /* Estilo para FAQ colapsable */
+        details summary {
+            cursor: pointer;
+            padding: 1rem;
+            border-bottom: 1px solid #1f1f1f;
+            transition: all 0.3s;
+        }
+
+        details summary:hover {
+            background-color: #0A0A0A;
+            color: var(--color-primary);
+        }
+
+        details[open] summary {
+            background-color: #1A1A1A;
+            color: var(--color-primary);
+        }
+
+        details p {
+            padding: 1rem;
+            background-color: #050505;
+            /* Borde inferior blanco como acento */
+            border-bottom: 2px solid var(--color-primary); 
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- Canvas para el Fondo Topográfico Animado -->
+    <canvas id="topographic-bg"></canvas>
+
+    <!-- Contenido Principal -->
+    <main class="relative z-10 p-4 md:p-8">
+        
+        <!-- Sección HERO -->
+        <header class="py-24 md:py-32 text-center max-w-5xl mx-auto">
+            <h1 class="text-5xl md:text-7xl font-extrabold mb-6 animated-item delay-100 h1-glitch" style="letter-spacing: -0.05em;">
+                RENDIMIENTO <span class="accent-text">EXTREMO</span> PARA TU PC <span class="text-gray-500">CON XCRIP</span>
+            </h1>
+            <!-- Frase actualizada -->
+            <p class="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto mb-10 animated-item delay-200">
+                Lleva tu hardware a su límite de eficiencia. La solución de baja latencia y altos FPS que los profesionales utilizan.
+            </p>
+            
+            <!-- Tu Nombre / Alias Aquí -->
+            <p class="text-xl font-light text-gray-500 mb-4 animated-item delay-300">
+                Desarrollado y optimizado por <span class="text-white font-semibold">XCRIP</span>
+            </p>
+
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6 animated-item delay-400">
+                <a href="https://discord.gg/GyDmVrWf8e" target="_blank" class="btn-plasma inline-flex items-center text-lg py-4 px-10 rounded-lg">
+                    <!-- Icono de Discord -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 mr-3"><path d="M10 16a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM14 16a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/><path d="M21 15.25c-2.486 0-3.693 1.34-3.693 1.34s-.472-.731-1.637-1.34c-1.164-.61-2.228-.61-2.228-.61s-1.064 0-2.228.61c-1.165.609-1.637 1.34-1.637 1.34s-1.207-1.34-3.693-1.34C3.89 15.25 3 14.5 3 14.5V6a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v8.5c0 1.25-.89 1.25-1.996 1.25z"/></svg>
+                    ACCEDER A LA COMUNIDAD
+                </a>
+                <a href="https://discord.gg/GyDmVrWf8e" target="_blank" class="btn-plasma inline-flex items-center text-lg py-4 px-10 rounded-lg bg-transparent text-white hover:bg-white hover:text-black transition duration-200 border-2 border-white">
+                    💻 ¿LISTO PARA OPTIMIZAR?
+                </a>
+            </div>
+
+            <div class="mt-8 text-gray-600 text-sm animated-item delay-500">
+                <p>Compatibilidad total con Windows 10/11 y las últimas tarjetas gráficas de NVIDIA/AMD.</p>
+            </div>
+        </header>
+        
+        <!-- Sección: ¿Qué son los Tweaks? (Detallada) -->
+        <section class="py-16 max-w-5xl mx-auto">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-center mb-12 animated-item delay-100">
+                ⚙️ El Motor Detrás de <span class="accent-text">XCRIP</span>
+            </h2>
+            <div class="bg-gray-900/70 p-6 md:p-10 rounded-xl shadow-2xl border border-gray-700 animated-item delay-200">
+                <p class="text-lg text-gray-300 mb-8">
+                    Nuestros Tweaks son un conjunto de ajustes no superficiales. Trabajamos a nivel de <span class="font-bold">Kernel, Interrupts y Registro de Windows</span> para asegurar que el sistema operativo gaste el mínimo tiempo en tareas de fondo y el máximo en procesar la lógica del juego.
+                </p>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-gray-300">
+                    <div class="flex items-start flex-col animated-item delay-300 p-3 bg-gray-800/50 rounded-lg border border-gray-800">
+                        <span class="accent-text mr-2 text-xl mb-1">📉</span> 
+                        <span class="font-semibold text-white">Latencia Cero</span>
+                        <span class="text-sm text-gray-400">Reducción del DPC Latency para una respuesta instantánea de tu mouse y teclado.</span>
+                    </div>
+                    <div class="flex items-start flex-col animated-item delay-400 p-3 bg-gray-800/50 rounded-lg border border-gray-800">
+                        <span class="accent-text mr-2 text-xl mb-1">📈</span> 
+                        <span class="font-semibold text-white">FPS Elevados y Estables</span>
+                        <span class="text-sm text-gray-400">Eliminamos stutters (microcortes) mejorando el *frametime* consistentemente.</span>
+                    </div>
+                    <div class="flex items-start flex-col animated-item delay-500 p-3 bg-gray-800/50 rounded-lg border border-gray-800">
+                        <span class="accent-text mr-2 text-xl mb-1">🛡️</span> 
+                        <span class="font-semibold text-white">Optimización Segura</span>
+                        <span class="text-sm text-gray-400">Todos los ajustes son reversibles y testeados contra riesgos de corrupción o baneos.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Sección: XCRIP OS (Destacada) -->
+        <section class="py-16 max-w-5xl mx-auto">
+            <div class="bg-gray-950 p-6 md:p-10 rounded-xl shadow-2xl card-xtreme animated-item delay-300">
+                <h2 class="text-4xl md:text-5xl font-extrabold text-center mb-6 accent-text">
+                    ⭐ XCRIP OS — LA VENTAJA DEFINITIVA
+                </h2>
+                <p class="text-xl text-gray-300 mb-8 text-center max-w-4xl mx-auto">
+                    Nuestro sistema operativo personalizado es la cúspide de la optimización. Es Windows, <span class="font-bold">sin el peso innecesario</span>, diseñado únicamente para ganar FPS y reducir al mínimo el *bloatware*.
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 text-gray-400">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-3 text-white">Beneficios Únicos:</h3>
+                        <ul class="space-y-3 list-disc list-inside ml-4">
+                            <li><span class="font-bold">Instalación Limpia:</span> Menos de la mitad de servicios en ejecución que una instalación estándar.</li>
+                            <li><span class="font-bold">Memoria Mínima:</span> Consumo de RAM en reposo drásticamente reducido.</li>
+                            <li><span class="font-bold">Control Total:</span> Desactivación permanente de la telemetría y tareas programadas inútiles.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <!-- Texto modificado según la solicitud anterior -->
+                        <h3 class="text-2xl font-bold mb-3 text-white">¿Quién lo necesita?</h3>
+                        <p class="text-gray-400 mb-3">
+                            Jugadores de Esports, Creadores de Contenido y cualquier persona que busque mejorar el rendimiento máximo de su PC.
+                        </p>
+                        <a href="https://discord.gg/GyDmVrWf8e" target="_blank" class="btn-plasma py-3 px-8 rounded-lg text-lg text-center block w-full mt-4 bg-transparent text-white hover:bg-white hover:text-black">
+                            SOLICITAR EL PAQUETE XTREME
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Sección: Servicios y Paquetes -->
+        <section class="py-16 max-w-6xl mx-auto">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-center mb-16 animated-item delay-100">
+                💸 <span class="accent-text">SERVICIOS</span> DISPONIBLES
+            </h2>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+
+                <!-- Paquete 1: BASIC -->
+                <div class="card-glow rounded-xl p-8 shadow-xl animated-item delay-200">
+                    <div class="text-center mb-6">
+                        <h3 class="text-3xl font-bold text-white mb-2">🧩 BASIC — $250 MXN</h3>
+                    </div>
+                    <p class="text-gray-400 mb-6 border-b border-gray-800 pb-4">
+                        Optimización ligera y segura, ideal para mejorar el rendimiento sin alterar configuraciones profundas.
+                    </p>
+                    
+                    <h4 class="text-xl font-bold text-gray-300 mb-3">🔧 Incluye:</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li class="flex items-start"><span class="accent-text mr-3">✓</span> Limpieza general del sistema y eliminación de procesos innecesarios.</li>
+                        <li class="flex items-start"><span class="accent-text mr-3">✓</span> Optimización de CPU, RAM y disco para un uso más eficiente de recursos.</li>
+                        <li class="flex items-start"><span class="accent-text mr-3">✓</span> Incremento moderado de FPS y mejora de la fluidez visual.</li>
+                        <li class="flex items-start"><span class="accent-text mr-3">✓</span> Reducción del input delay, permitiendo respuestas más rápidas al jugar.</li>
+                        <li class="flex items-start"><span class="accent-text mr-3">✓</span> Ajustes de energía optimizados para equilibrar rendimiento y estabilidad.</li>
+                    </ul>
+                    <div class="mt-6 border-t border-gray-800 pt-4 text-sm text-gray-500">
+                         <p class="mt-1 text-white font-bold">💬 Ideal para usuarios casuales o PCs de gama baja/media que buscan mejorar su experiencia de juego de manera segura.</p>
+                    </div>
+                   
+                    <a href="https://discord.gg/GyDmVrWf8e" target="_blank" class="btn-plasma w-full mt-8 py-3 rounded-lg text-lg text-center block bg-transparent text-white">
+                        ADQUIRIR BASIC
+                    </a>
+                </div>
+
+                <!-- Paquete 2: XTREME -->
+                <div class="card-glow rounded-xl p-8 shadow-2xl ring-2 card-xtreme animated-item delay-400">
+                    <div class="text-center mb-6">
+                        <h3 class="text-3xl font-bold accent-text mb-2">⚡ XTREME — $500 MXN</h3>
+                    </div>
+                    
+                    <!-- Descripción principal modificada -->
+                    <p class="text-gray-300 mb-6 border-b border-gray-700 pb-4 font-semibold">
+                        Optimización completa y avanzada para maximizar el rendimiento de tu PC, incluyendo ajustes de hardware, software y red, además de mi sistema operativo personalizado XCRIP OS.
+                    </p>
+                    
+                    <h4 class="text-xl font-bold text-gray-300 mb-3">🚀 Incluye todo lo del plan BASIC, más:</h4>
+                    
+                    <!-- Lista de beneficios detallada y modificada -->
+                    <ul class="space-y-3 text-gray-400">
+                        <li class="flex items-start"><span class="accent-text mr-3">✓</span> Ajustes avanzados de registro, servicios del sistema, red, controladores y procesos ocultos.</li>
+                        <li class="flex items-start"><span class="accent-text mr-3">✓</span> Desactivación de tareas innecesarias que consumen recursos en segundo plano.</li>
+                        <li class="flex items-start"><span class="accent-text mr-3">✓</span> Configuración de energía, temporizadores y prioridades del sistema para una respuesta instantánea.</li>
+                        <li class="flex items-start"><span class="accent-text mr-3">✓</span> Incremento total de FPS, eliminando caídas, stutters y microcortes.</li>
+                        <li class="flex items-start"><span class="accent-text mr-3">✓</span> Optimización de latencia de red, reduciendo ping y pérdida de paquetes.</li>
+                        <li class="flex items-start"><span class="accent-text mr-3">✓</span> Mejor gestión de recursos de CPU y GPU para maximizar el rendimiento en juegos exigentes.</li>
+                        <li class="flex items-start"><span class="accent-text mr-3">✓</span> Experiencia fluida en multitarea y streaming.</li>
+                        <li class="flex items-start"><span class="accent-text mr-3">✓</span> <span class="font-bold">Instalación y Configuración del Sistema Operativo XCRIP OS</span>.</li>
+                        <!-- La línea de BIOS/UEFI ha sido eliminada. -->
+                    </ul>
+
+                    <div class="mt-6 border-t border-gray-700 pt-4 text-sm text-gray-500">
+                        <h4 class="font-bold text-gray-300">💽 Requisito:</h4>
+                        <p>⚠️ Una memoria USB (mínimo 8 GB) para la instalación y configuración del sistema.</p>
+                        
+                        <!-- Ideal para... añadido -->
+                        <p class="mt-3 text-white font-bold">💥 Ideal para jugadores competitivos, streamers o usuarios exigentes que desean un sistema rápido, estable y totalmente optimizado.</p>
+                    </div>
+                    
+                    <a href="https://discord.gg/GyDmVrWf8e" target="_blank" class="btn-plasma w-full mt-8 py-3 rounded-lg text-lg text-center block bg-transparent text-white">
+                        ADQUIRIR XTREME (Recomendado)
+                    </a>
+                </div>
+            </div>
+
+            <!-- Garantía -->
+            <div class="mt-16 text-center max-w-4xl mx-auto p-6 bg-gray-900/70 border border-gray-700 rounded-xl animated-item delay-500">
+                <h3 class="text-2xl font-bold mb-2 text-white">🛡️ GARANTÍA DE OPTIMIZACION (30 Días)</h3>
+                <p class="text-gray-400">Si el rendimiento no cumple tus expectativas, ofrecemos ajustes correctivos adicionales sin costo durante 1 mes. Tu inversión está protegida.</p>
+            </div>
+        </section>
+
+        <!-- Sección: FAQ (Dudas Comunes) -->
+        <section class="py-16 max-w-5xl mx-auto">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-center mb-12 animated-item delay-100">
+                ❓ <span class="accent-text">DUDAS</span> COMUNES (FAQ)
+            </h2>
+            <div class="bg-gray-900/70 rounded-xl border border-gray-700 animated-item delay-200">
+                
+                <details>
+                    <summary class="font-semibold text-lg flex justify-between items-center">
+                        <span>¿Es seguro para mis cuentas de juego (anti-cheat)?</span>
+                        <span class="text-xl">+</span>
+                    </summary>
+                    <p class="text-gray-400">Sí, todos los tweaks son configuraciones legales de Windows que no interactúan con los clientes anti-cheat. El servicio está diseñado pensando en la seguridad del usuario y es 100% libre de riesgo de baneo.</p>
+                </details>
+
+                <details>
+                    <summary class="font-semibold text-lg flex justify-between items-center">
+                        <span>¿Necesito saber de informática para el proceso?</span>
+                        <span class="text-xl">+</span>
+                    </summary>
+                    <p class="text-gray-400">Absolutamente no. Todo el proceso es asistido por XCRIP de principio a fin, generalmente a través de una sesión remota (ej. TeamViewer o AnyDesk). Solo necesitas estar presente y seguir instrucciones sencillas.</p>
+                </details>
+
+                <details>
+                    <summary class="font-semibold text-lg flex justify-between items-center">
+                        <span>¿Qué hardware es compatible?</span>
+                        <span class="text-xl">+</span>
+                    </summary>
+                    <p class="text-gray-400">La optimización es compatible con prácticamente cualquier PC que ejecute Windows 10 u 11, independientemente de si usa CPU Intel o AMD, y GPUs NVIDIA o AMD. El servicio XTREME es especialmente bueno para PCs de gama media/baja/alta.</p>
+                </details>
+
+                <details>
+                    <summary class="font-semibold text-lg flex justify-between items-center">
+                        <span>¿Cuánto tiempo tarda la optimización?</span>
+                        <span class="text-xl">+</span>
+                    </summary>
+                    <!-- EL TIEMPO YA ESTÁ ACTUALIZADO A 15-20 MINUTOS -->
+                    <p class="text-gray-400">El Paquete BASIC suele tomar entre 15 a 20 minutos. El Paquete XTREME (con instalación de XCRIP OS) puede durar alrededor de 1 hora, dependiendo de la instalación.</p>
+                </details>
+            </div>
+        </section>
+
+    </main>
+    
+    <!-- Footer -->
+    <footer class="text-center p-6 text-gray-600 border-t border-gray-800 mt-12">
+        <p class="mb-2">Contacto: <a href="https://discord.gg/GyDmVrWf8e" target="_blank" class="accent-text hover:text-white transition duration-200">Únete a nuestro Discord para soporte y ventas</a></p>
+        <p>&copy; 2023 XCRIP TWEAKS. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        // --- Lógica del Fondo Topográfico Animado (Canvas) ---
+        const canvas = document.getElementById('topographic-bg');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let lines = [];
+        const lineCount = 25; 
+        
+        // Color Blanco/Gris sutil para el esquema monocromático
+        const lineColor = 'rgba(255, 255, 255, 0.2)'; 
+        const speed = 0.00008; // Velocidad de movimiento sutil
+        let timeOffset = Math.random() * 10000; 
+        let animationFrameId;
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            
+            lines = [];
+            for (let i = 0; i < lineCount; i++) {
+                lines.push({
+                    yOffset: height * (i / lineCount) * 1.5 - (height * 0.25), 
+                    amplitude: Math.random() * 20 + 20, // Aumentado ligeramente para más efecto
+                    frequency: Math.random() * 0.005 + 0.008, // Aumentado ligeramente para más onda
+                    phase: Math.random() * 2 * Math.PI 
+                });
+            }
+        }
+
+        function drawTopography(time) {
+            ctx.clearRect(0, 0, width, height);
+            
+            const currentTime = time * speed + timeOffset;
+
+            lines.forEach((line, index) => {
+                ctx.beginPath();
+                ctx.strokeStyle = lineColor;
+                ctx.lineWidth = 1 + (index / lineCount) * 0.5;
+                
+                const sweepShift = index * 0.02;
+
+                for (let x = 0; x <= width; x += 30) {
+                    const y = line.yOffset + 
+                              Math.sin(x * line.frequency + currentTime + line.phase + sweepShift) * line.amplitude; 
+                    
+                    if (x === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                }
+                
+                const lastY = line.yOffset + 
+                              Math.sin(width * line.frequency + currentTime + line.phase + sweepShift) * line.amplitude; 
+                ctx.lineTo(width, lastY);
+
+                ctx.stroke();
+            });
+
+            // Llamada recursiva para el bucle de animación
+            animationFrameId = requestAnimationFrame(drawTopography);
+        }
+
+        // Inicializa y comienza la animación
+        window.addEventListener('resize', resizeCanvas);
+        window.onload = function () {
+            resizeCanvas();
+            // Iniciar la animación en la carga de la ventana
+            drawTopography(performance.now()); // Usar performance.now() para un tiempo más preciso
+            
+            // Forzar la animación de entrada para todos los elementos
+            document.querySelectorAll('.animated-item').forEach(el => {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+            });
+        };
+        
+        window.onbeforeunload = () => {
+            cancelAnimationFrame(animationFrameId);
+        };
+        
+    </script>
+</body>
+</html>
